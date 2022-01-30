@@ -8,7 +8,7 @@ Written Tutorial-
   
   2.Then you have to move all your other scripts var that you want to save to the autoload scene script.
   
-  3.Then install the plugin from Github (Link to GitHub Repository) or from here on itch.io.
+  3.Then install the plugin from here on Github or from itch.io
   
   4.Then unzip the zip file and add the addon folder to Godot game engine.
   
