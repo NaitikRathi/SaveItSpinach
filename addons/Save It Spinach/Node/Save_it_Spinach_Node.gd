@@ -1,10 +1,10 @@
-tool
+@tool
 extends Node
 
-export(String) var autoload_name
-export(Array) var Key
-export(Array) var Value
-onready var autoload = get_node("/root/" + autoload_name)
+@export var autoload_name : String
+@export var Key : Array
+@export var Value: Array
+@onready var autoload = get_node("/root/" + autoload_name)
 var _1data = {}
 
 const Save_Dir = "user://saves/"
@@ -20,31 +20,23 @@ func Arrays_To_Dict():
 		_1data[Key[n]] = extracted
 
 func _notification(what):
-	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST or what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST or what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		Arrays_To_Dict()
 		save_data()
 
 func save_data():
 	var _data = {}
 	_data = _1data
-	var dir = Directory.new()
-	if !dir.dir_exists(Save_Dir):
-		dir.make_dir_recursive(Save_Dir)
+	DirAccess.make_dir_absolute(Save_Dir)
 
-	var file = File.new()
-	var error = file.open(save_path, File.WRITE)
-	if error == OK:
-		file.store_var(_data)
-		file.close()
+	var file = FileAccess.open(save_path, FileAccess.WRITE)
+	file.store_var(_data)
 
 func load_data():
-	var file = File.new()
-	if file.file_exists(save_path):
-		var error = file.open(save_path, File.READ)
-		if error == OK:
-			var _data = file.get_var()
-			load_save_stats(_data)
-			file.close()
+	var file = FileAccess.open(save_path, FileAccess.READ)
+	var _data = file.get_var()
+	load_save_stats(_data)
+	file.close()
 
 func load_save_stats(stats):
 	for n in Value.size():
