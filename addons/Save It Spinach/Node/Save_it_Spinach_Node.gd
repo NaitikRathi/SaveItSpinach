@@ -34,9 +34,10 @@ func save_data():
 
 func load_data():
 	var file = FileAccess.open(save_path, FileAccess.READ)
-	var _data = file.get_var()
-	load_save_stats(_data)
-	file.close()
+	if(file != null):
+		var _data = file.get_var()
+		load_save_stats(_data)
+		file.close()
 
 func load_save_stats(stats):
 	for n in Value.size():
