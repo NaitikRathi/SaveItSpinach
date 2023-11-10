@@ -1,9 +1,8 @@
 @tool
 extends Node
 
-@export var autoload_name : String
-@export var Key : Array
-@export var Value: Array
+@export var autoload_name : String = "Global"
+@export var Varname: PackedStringArray
 @onready var autoload = get_node("/root/" + autoload_name)
 var _1data = {}
 
@@ -15,9 +14,9 @@ func _ready():
 	load_data()
 
 func Arrays_To_Dict():
-	for n in Value.size():
-		var extracted = autoload.get(Value[n])
-		_1data[Key[n]] = extracted
+	for n in Varname.size():
+		var extracted = autoload.get(Varname[n])
+		_1data[Varname[n]] = extracted
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST or what == NOTIFICATION_WM_GO_BACK_REQUEST:
@@ -40,6 +39,6 @@ func load_data():
 		file.close()
 
 func load_save_stats(stats):
-	for n in Value.size():
-		var key = stats[str(Key[n])] 
-		autoload.set(Value[n], key)
+	for n in Varname.size():
+		var key = stats[str(Varname[n])] 
+		autoload.set(Varname[n], key)
